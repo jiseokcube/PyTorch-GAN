@@ -220,10 +220,10 @@ for epoch in range(opt.n_epochs):
 
         optimizer_D.step()
 
-#        print(
-#            "[Epoch %d/%d] [Batch %d/%d] [D loss: %f] [G loss: %f]"
-#            % (epoch, opt.n_epochs, i, len(mnist_loader), d_loss.item(), g_loss.item())
-#        )
+    print(
+        "[Epoch %d/%d] [Batch %d/%d] [D loss: %f] [G loss: %f]"
+        % (epoch, opt.n_epochs, i, len(dataloader), d_loss.item(), g_loss.item())
+    )
 
     save_image(gen_imgs.data, "images/%d.png" % epoch, nrow=int(math.sqrt(opt.batch_size)), normalize=True)
     display(Image(filename="images/%d.png" % epoch))
