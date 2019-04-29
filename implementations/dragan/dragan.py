@@ -173,7 +173,7 @@ def compute_gradient_penalty(D, X):
 # ----------
 
 for epoch in range(opt.n_epochs):
-    for i, (imgs, _) in enumerate(mnist_loader):
+    for i, (imgs, _) in enumerate(dataloader):
 
         # Adversarial ground truths
         valid = Variable(Tensor(imgs.shape[0], 1).fill_(1.0), requires_grad=False)
