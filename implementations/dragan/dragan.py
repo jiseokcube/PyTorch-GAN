@@ -227,7 +227,7 @@ for epoch in range(opt.n_epochs):
                 "[Epoch %d/%d] [Batch %d/%d] [D loss: %f] [G loss: %f]"
                 % (epoch, opt.n_epochs, i, len(dataloader), d_loss.item(), g_loss.item())
             )
-            save_image(gen_imgs.data, "images/%d.png" % batches_done, nrow=int(math.sqrt(batch_size)), normalize=True)
+            save_image(gen_imgs.data, "images/%d.png" % batches_done, nrow=int(math.sqrt(opt.batch_size)), normalize=True)
             display(Image(filename="images/%d.png" % batches_done))
 
 #    save_image(gen_imgs.data, "images/%d.png" % epoch, nrow=int(math.sqrt(opt.batch_size)), normalize=True)
