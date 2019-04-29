@@ -147,7 +147,10 @@ def compute_gradient_penalty(D, X):
     # Random weight term for interpolation
     alpha = Tensor(np.random.random(size=X.shape))
 
-    interpolates = alpha * X + ((1 - alpha) * (X + 0.5 * X.std() * torch.rand(X.size())))
+    if cuda:
+        interpolates = alpha * X + ((1 - alpha) * (X + 0.5 * X.std() * Tensor(X.size()).uniform_()))
+    else:
+        interpolates = alpha * X + ((1 - alpha) * (X + 0.5 * X.std() * torch.rand(X.size())))
     interpolates = Variable(interpolates, requires_grad=True)
 
     d_interpolates = D(interpolates)
@@ -221,14 +224,6 @@ for epoch in range(opt.n_epochs):
 #            "[Epoch %d/%d] [Batch %d/%d] [D loss: %f] [G loss: %f]"
 #            % (epoch, opt.n_epochs, i, len(mnist_loader), d_loss.item(), g_loss.item())
 #        )
-        batches_done = epoch * len(dataloader) + i
-        if batches_done % opt.sample_interval == 0:
-            print(
-                "[Epoch %d/%d] [Batch %d/%d] [D loss: %f] [G loss: %f]"
-                % (epoch, opt.n_epochs, i, len(dataloader), d_loss.item(), g_loss.item())
-            )
-            save_image(gen_imgs.data, "images/%d.png" % batches_done, nrow=int(math.sqrt(opt.batch_size)), normalize=True)
-            display(Image(filename="images/%d.png" % batches_done))
 
-#    save_image(gen_imgs.data, "images/%d.png" % epoch, nrow=int(math.sqrt(opt.batch_size)), normalize=True)
-#    display(Image(filename="images/%d.png" % epoch))
+    save_image(gen_imgs.data, "images/%d.png" % epoch, nrow=int(math.sqrt(opt.batch_size)), normalize=True)
+    display(Image(filename="images/%d.png" % epoch))
